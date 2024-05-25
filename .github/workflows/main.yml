@@ -1,0 +1,31 @@
+name: restaurants-api
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches:
+    - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.5
+        
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore Restaurants.sln
+
+      - name: Build
+        run: dotnet build --no-restore Restaurants.sln
+
+      - name: Test
+        run: dotnet test Restaurants.sln
+
