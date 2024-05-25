@@ -24,7 +24,8 @@ jobs:
         run: dotnet restore Restaurants.sln
 
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore Restaurants.sln
 
       - name: Test
-        run: dotnet test
+        run: dotnet test Restaurants.sln
+
