@@ -22,7 +22,7 @@ jobs:
         run: dotnet restore Restaurants.sln
 
       - name: Build
-        run: dotnet build --no-restore Restaurants.sln
+        run: dotnet build --no-restore -c Release Restaurants.sln
 
       - name: Publish
         run: dotnet publish ./src/Restaurants.API/Restaurants.API.csproj --no-build -o ${{env.DOTNET_ROOT}}./api
