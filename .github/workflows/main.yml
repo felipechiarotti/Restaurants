@@ -3,6 +3,7 @@ name: restaurants-api-ci
 on:
   pull_request:
     branches:
+    - development
     - master
   workflow_dispatch:
 
