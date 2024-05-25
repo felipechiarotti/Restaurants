@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  restaurants.api:
+    image: ${DOCKER_REGISTRY-}restaurantsapi
+    build:
+      context: .
+      dockerfile: src/Restaurants.API/Dockerfile
+
+#-------------Infra------------------
+  restaurants-db:
+    image: mcr.microsoft.com/mssql/server
+
+  restaurants-cache:
+    image: redis:alpine
+
+  restaurants-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+
+  restaurants-kibana:
+   image: docker.elastic.co/kibana/kibana:7.9.2
+#------------Volumes----------------
+volumes:
+  sqlserver_data:
+  elasticsearch_data:  

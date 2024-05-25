@@ -1,0 +1,62 @@
+version: '3.4'
+
+services:
+  restaurants.api:
+    container_name: restaurants-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__RestaurantsDb=Server=restaurants-db;Database=RestaurantsDb;User Id=sa;Password=${SQLSERVER_PASSWORD};TrustServerCertificate=True
+      - ConnectionStrings__RestaurantsCache=restaurants-cache:6379
+      - ConnectionStrings__ElasticSearchUri=http://restaurants-elasticsearch:9200
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ./Restaurants.API/Logs:/app/Logs
+    depends_on:
+      - restaurants-db
+      - restaurants-cache
+      # - restaurants-elasticsearch
+
+#-------------Infra------------------
+  restaurants-db:
+    container_name: restaurants-db
+    environment:
+     - ACCEPT_EULA=Y
+     - MSSQL_SA_PASSWORD=${SQLSERVER_PASSWORD}
+    restart: always
+    ports:
+     - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  restaurants-cache:
+    container_name: restaurants-cache
+    restart: always
+    ports:
+     - "6379:6379"
+
+  restaurants-elasticsearch:
+   container_name: restaurants-elasticsearch
+   ports:
+    - 9200:9200
+   volumes:
+    - elasticsearch_data:/usr/share/elasticsearch/data
+   environment:
+    - xpack.monitoring.enabled=true
+    - xpack.watcher.enabled=false
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    - discovery.type=single-node
+
+  restaurants-kibana:
+   container_name: restaurants-kibana
+   ports:
+    - 5601:5601
+   depends_on:
+    - restaurants-elasticsearch
+   environment:
+    - ELASTICSEARCH_HOSTS=http://restaurants-elasticsearch:9200

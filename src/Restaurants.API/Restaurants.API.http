@@ -1,0 +1,100 @@
+@Restaurants.API_HostAddress = https://localhost:7025
+@Restaurants_Controller = restaurants
+@Dishes_Controller = dishes
+@Identity_Controller = api/identity
+@AccessToken = CfDJ8Mp7UBKGrMFGhkbnF5mVN7P4Cwqjvv6T7gTNKlACUFjjdkiosk7SFhN0ebH220Zj1FI-mZl9TEEubteRxWgQfXFagJFgJSwJpJtj1_LlEymeNoaW0uUvMlNLLNtM3boqjmVr1KdRORTp11TNIjgDZCzfjvL92Y8ANc_uorOyqxG2Cb-js8It-N6b8FhDOfy5F57qAfpua-v9bXJmKNun_fZsb0SZLywnoq3lzGd3487in27x69QO_NqjnPq3abq4XzGs0AJksS4RNgw8byANaMKlaHSrgpTnaoyPy6lXG9uEcDK4tOu1IjB4MvBooLppqLbUXyoJThHW8lUj25LSWn09HOPDE1ad6cSlbFbjO4ZU2ROua3DZUylMAR0DDs8zbn-fPNiM-B1d80CTI0HlxGwYsHcQ2UyI8YGlj9zMZb1_khIKb5VjTyp23Aq8dj1TfbdDavjUJ0T9A9WNda8Q_Jq82A_loN3p05f5ctUcKGokFuke1iJQ9WTxRzx5tekZxCGb8geKBN86lVjsgRwRwewAxx_D86kukRF9ld6FcYIVYYhJP1FczyvA8eKi3CfhNszPSyfhG4yq7zr3AETCcSkwpzy4zsD2U2aaW0dPAXGuw5D8zbnNXfrNIhX3joXQyE25xkMmDXjmABacsOMfQhj8JG6g9A8x4IHBTgYpMrNgq7ltOyJrB4iovRj57Llvw9bc3O92ra8V3hBr1MY4uLLTeB5EA3jDf2n1E9Sde2iwd0Az_uIG5GRKuryPaKhvaj15K4I0yxVq-ZaRoTwZ1CDUeVRA2XU7MjHpKr1nyfarPY56yY0Qn8JZWmXimFWms1LEIt177yQPF0T09EEU4xkQCdaKz_HIclMLwmU6xm51tDB5l7kZhmDkiKjSxnCb2Um8Zmuwax9fV8Q1XqTXaVURxVY9RJn_0dxHydQYB3yxxn9vxugaMAX3Z1x9hd3wcSnnk2KmAIpCvX5beydO7ZwFGTrlGU5f2xNvMPPl3PCSinS45dXjZwOPW5R5QDlGhgdZ9a45md4DF7O8RDmhfr-_nu_0CHnhT6I7LzFeFTX87Y9glk23gztTX-2Lj6kzBvRN0TA4OqlvirdYUFRYj4GKLJ1k3055gsKKAuGH8fdW
+@Restaurant_Id = 045dfd20-9ac0-414b-d599-08dc78978f3d
+@Dish_Id = 90761cf0-ba13-4c1a-109e-08dc7897df3d
+
+GET {{Restaurants.API_HostAddress}}/api/{{Restaurants_Controller}}?pageNumber=1&pageSize=25&sortBy=Name
+Authorization: Bearer {{AccessToken}}
+###
+
+GET {{Restaurants.API_HostAddress}}/api/{{Restaurants_Controller}}/{{Restaurant_Id}}
+Authorization: Bearer {{AccessToken}}
+###
+
+POST {{Restaurants.API_HostAddress}}/api/{{Restaurants_Controller}}
+Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
+
+{
+  "Name": "Burger King",
+  "Description": "Test",
+  "Category": "Japanese",
+  "ContactEmail": "felipechi97@gmail.com"
+}
+
+###
+
+DELETE {{Restaurants.API_HostAddress}}/api/{{Restaurants_Controller}}/{{Restaurant_Id}}
+Authorization: Bearer {{AccessToken}}
+
+###
+
+PATCH {{Restaurants.API_HostAddress}}/api/{{Restaurants_Controller}}/{{Restaurant_Id}}
+Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
+
+{
+  "Name": "Test2",
+  "Description": "Description2"
+}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/{{Restaurants_Controller}}/{{Restaurant_Id}}/{{Dishes_Controller}}
+Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
+
+{
+  "Name": "Spaghetti 2",
+  "Description": "Classic italian pasta dish with rich meat sauce",
+  "Price": 23,
+  "KiloCalories": 1250
+}
+
+###
+
+GET {{Restaurants.API_HostAddress}}/api/{{Restaurants_Controller}}/{{Restaurant_Id}}/{{Dishes_Controller}}/{{Dish_Id}}
+Authorization: Bearer {{AccessToken}}
+###
+
+GET {{Restaurants.API_HostAddress}}/api/{{Restaurants_Controller}}/{{Restaurant_Id}}/{{Dishes_Controller}}
+Authorization: Bearer {{AccessToken}}
+###
+
+DELETE {{Restaurants.API_HostAddress}}/api/{{Restaurants_Controller}}/{{Restaurant_Id}}/{{Dishes_Controller}}/{{Dish_Id}}
+Authorization: Bearer {{AccessToken}}
+###
+
+PATCH {{Restaurants.API_HostAddress}}/api/{{Restaurants_Controller}}/{{Restaurant_Id}}/{{Dishes_Controller}}/{{Dish_Id}}
+Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
+
+{
+  "Name": "Dish Updated Name Test",
+  "Description": "Patched Dish description"
+}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/{{Identity_Controller}}/register
+Content-Type: application/json
+
+{
+  "email": "simpleuser@test.com",
+  "password": "Password1!"
+}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/{{Identity_Controller}}/login
+Content-Type: application/json
+
+{
+  "email": "admin@restaurants.com",
+  "password": "Password1!"
+}
+
+###
