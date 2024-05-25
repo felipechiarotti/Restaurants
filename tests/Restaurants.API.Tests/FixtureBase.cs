@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Moq;
 using Restaurants.Domain.Repositories;
+using Restaurants.Infrastructure.Seeders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace Restaurants.API.Tests
         internal readonly WebApplicationFactory<Program> _factory;
         internal readonly IFixture _fixture;
         internal readonly Mock<IRestaurantsRepository> _restaurantsRepositoryMock = new();
+        internal readonly Mock<IRestaurantSeeder> _restaurantSeederMock = new();
 
         public FixtureBase(WebApplicationFactory<Program> factory)
         {
@@ -33,6 +35,7 @@ namespace Restaurants.API.Tests
                 {
                     services.AddSingleton<IPolicyEvaluator, FakePolicyEvaluator>();
                     services.Replace(ServiceDescriptor.Scoped(typeof(IRestaurantsRepository), _ => _restaurantsRepositoryMock.Object));
+                    services.Replace(ServiceDescriptor.Scoped(typeof(IRestaurantSeeder), _ => _restaurantSeederMock.Object));
                 });
             });
         }
