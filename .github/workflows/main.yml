@@ -1,11 +1,6 @@
 name: restaurants-api-ci
 
 on:
-  push:
-    branches-ignore: 
-      - master
-      - development
-      
   pull_request:
     branches:
     - development

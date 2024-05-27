@@ -1,9 +1,9 @@
-name: restaurants-api-cd
+name: restaurants-api-cd-dev
 
 on:
   push:
     branches:
-    - master
+    - development
   workflow_dispatch:
 
 jobs:
@@ -51,22 +51,3 @@ jobs:
           with:
             app-name: chiarotti-restaurants-api-dev
             publish-profile: ${{secrets.PUBLISH_PROFILE_DEV}}
-
-  deploy-prod:
-      environment:
-        name: 'Prod'
-        url: ${{steps.deploy-to-webapp.outputs.webapp-url}}
-      runs-on: ubuntu-latest
-      needs: deploy-dev
-      steps:
-        - name: Download a Build Artifact
-          uses: actions/download-artifact@v4.1.7
-          with:
-            name: api-artifact
-            
-        - name: Azure WebApp
-          uses: Azure/webapps-deploy@v3.0.1
-          id: deploy-to-webapp
-          with:
-            app-name: chiarotti-restaurants-api-prod
-            publish-profile: ${{secrets.PUBLISH_PROFILE_PROD}}
